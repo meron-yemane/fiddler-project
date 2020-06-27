@@ -1,0 +1,23 @@
+.App {
+  margin: 1rem;
+  h1 {
+    color: #0e64d2;
+  }
+  h4 {
+    color: #263140;
+  }
+}
+
+#navbar {
+  padding: 0 5rem 0 5rem;
+  min-height: 5rem;
+
+  .navbar__brand-img {
+    width: 2rem;
+  }
+
+  .navbar__link {
+    font-size: 1.3rem;
+    margin-left: 2rem;
+  }
+}

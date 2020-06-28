@@ -12,23 +12,6 @@
   max-width: 100%;
 }
 
-// navbar css
-
-#navbar {
-  padding: 0 5rem 0 5rem;
-  min-height: 5rem;
-  border-color: rgb(228, 228, 228);
-
-  .navbar__brand-img {
-    width: 2rem;
-  }
-
-  .navbar__link {
-    font-size: 1.3rem;
-    margin-left: 2rem;
-  }
-}
-
 // grid css
 
 #grid {
@@ -59,18 +42,18 @@
 
 // chart css
 
-#chart__scatter {
-  margin: 2rem 5rem 5rem 5rem;
+// #chart__scatter {
+//   margin: 2rem 5rem 5rem 5rem;
 
-  #chart__scatter-forms {
-    display: flex;
-  }
+//   #chart__scatter-forms {
+//     display: flex;
+//   }
 
-  .chart__scatter-form-select {
-    min-width: 10rem;
-  }
+//   .chart__scatter-form-select {
+//     min-width: 10rem;
+//   }
 
-  .chart__scatter-forms--y-axis {
-    margin-left: 5rem;
-  }
-}
+//   .chart__scatter-forms--y-axis {
+//     margin-left: 5rem;
+//   }
+// }

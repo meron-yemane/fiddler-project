@@ -1,0 +1,14 @@
+#navbar {
+  padding: 0 5rem 0 5rem;
+  min-height: 5rem;
+  border-color: rgb(228, 228, 228);
+
+  .navbar__brand-img {
+    width: 2rem;
+  }
+
+  .navbar__link {
+    font-size: 1.3rem;
+    margin-left: 2rem;
+  }
+}

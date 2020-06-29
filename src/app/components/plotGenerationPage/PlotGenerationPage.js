@@ -19,6 +19,7 @@ class PlotGenerationPage extends React.Component {
     this.handleXCoordinateSelect = this.handleXCoordinateSelect.bind(this);
     this.handleYCoordinateSelect = this.handleYCoordinateSelect.bind(this);
     this.generateDataForScatterPlot = this.generateDataForScatterPlot.bind(this);
+    this.handleScatterPlotSave = this.handleScatterPlotSave.bind(this);
     this.configurePlotGenerationData();
   }
 
@@ -30,10 +31,8 @@ class PlotGenerationPage extends React.Component {
       }
     };
     this.state.chartData = {
-      // labels: ['Scatter'],
       datasets: [
         {
-          label: 'idk',
           fill: false,
           backgroundColor: 'rgba(75,192,192,0.4)',
           pointBorderColor: '#0e64d2',
@@ -50,6 +49,9 @@ class PlotGenerationPage extends React.Component {
     };
     this.state.chartOptions = {
       showLines: false,
+      legend: {
+        display: false,
+      },
       scales: {
         yAxes: [{
           scaleLabel: {
@@ -106,6 +108,13 @@ class PlotGenerationPage extends React.Component {
     this.generateDataForScatterPlot();
   }
 
+  handleScatterPlotSave() {
+    this.props.onScatterPlotSave({
+      chartData: this.state.chartData,
+      chartOptions: this.state.chartOptions,
+    });
+  }
+
   render() {
     return (
       <div id="chart__scatter">
@@ -124,9 +133,9 @@ class PlotGenerationPage extends React.Component {
               </select>
             </div>
           </div>
-          <button disabled={!(this.chartXCoordinateValue?.length > 0 && this.chartYCoordinateValue?.length > 0)} type="button" className="btn btn-success chart__scatter-button--save">Save</button>
+          <button onClick={this.handleScatterPlotSave} disabled={!(this.chartXCoordinateValue?.length > 0 && this.chartYCoordinateValue?.length > 0)} type="button" className="btn btn-success chart__scatter-button--save">Save</button>
         </div>
-        <h2>Loan Data Scatter Plot </h2>
+        <h2 id="chart__scatter-header">Loan Data Scatter Plot</h2>
         <Scatter data={this.state.chartData}
           options={this.state.chartOptions} />
       </div>

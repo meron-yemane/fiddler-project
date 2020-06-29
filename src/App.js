@@ -1,53 +1,84 @@
 import React from 'react';
 import './App.scss';
-import loanData from './loanData';
 import 'bootstrap/dist/css/bootstrap.min.css';
+import PlotGenerationPage from './app/components/plotGenerationPage/PlotGenerationPage';
+import Dashboard from './app/components/dashboard/Dashboard';
+import Navigationbar from './app/components/navigationbar/Navigationbar';
+import { Route, BrowserRouter as Router } from 'react-router-dom';
+import loanData from './loanData';
+import { Scatter } from 'react-chartjs-2';
 
 class App extends React.Component {
-  tableColumnHeaders = [];
-  tableRowData = [];
-  chartSelectOptions = [];
   exampleLoan = loanData[0];
 
   constructor(props) {
     super(props);
-    this.configureData();
+    this.state = {
+      tableColumnHeaders: [],
+      tableRowData: [],
+      savedScatterPlots: [],
+    };
+    this.configureTableData = this.configureTableData.bind(this);
+    this.addScatterPlotToGrid = this.addScatterPlotToGrid.bind(this);
   }
 
-  configureData() {
+  componentDidMount() {
+    this.configureTableData();
+  }
+
+  configureTableData() {
+    const headerData = [];
+    const rowData = [];
     for (const header of Object.keys(this.exampleLoan)) {
-      this.tableColumnHeaders.push(<th key={header}>{header}</th>);
+      headerData.push(<th key={header}>{header}</th>);
     };
 
     for (const row of loanData) {
-      this.tableRowData.push(
+      rowData.push(
         <tr>
           {
             this.addDataToRow(row)
           }
         </tr>
       )
-    }
+    };
+    this.setState({
+      tableColumnHeaders: [...headerData],
+      tableRowData: [...rowData],
+    });
   }
 
   addDataToRow(row) {
-    const data = [];
-    for (const [key, value] of Object.entries(row)) {
-      data.push(<td key={key}>{value}</td>);
-    }
-    return data;
+    const data = Object.entries(row);
+    return data.map(pair => {
+      return <td key={pair[0]}>{pair[1]}</td>
+    });
+  }
+
+  addScatterPlotToGrid(scatterPlotData) {
+    const scatterPlotsCopy = [...this.state.savedScatterPlots];
+    scatterPlotsCopy.push(<li><Scatter data={scatterPlotData.chartData} options={scatterPlotData.chartOptions} /></li>);
+    this.setState({
+      savedScatterPlots: scatterPlotsCopy,
+    });
   }
 
   render() {
     return (
-      <div id="landing-page">
-        <table id="grid">
-          <tr>
-            {this.tableColumnHeaders}
-          </tr>
-          {this.tableRowData}
-        </table>
-      </div>
+      <Router>
+        <div>
+          <Navigationbar />
+          <Route exact path="/" render={(props) => (
+            <Dashboard {...props} savedScatterPlots={this.state.savedScatterPlots} tableRowData={this.state.tableRowData} tableColumnHeaders={this.state.tableColumnHeaders} />
+          )} />
+          <Route path="/dashboard" render={(props) => (
+            <Dashboard {...props} savedScatterPlots={this.state.savedScatterPlots} tableRowData={this.state.tableRowData} tableColumnHeaders={this.state.tableColumnHeaders} />
+          )} />
+          <Route path="/generateplot" render={() => (
+            <PlotGenerationPage onScatterPlotSave={this.addScatterPlotToGrid} />
+          )} />
+        </div>
+      </Router>
     );
   }
 }

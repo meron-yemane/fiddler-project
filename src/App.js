@@ -1,6 +1,7 @@
 import React from 'react';
 import './App.scss';
 import 'bootstrap/dist/css/bootstrap.min.css';
+import 'react-notifications/lib/notifications.css';
 import PlotGenerationPage from './app/components/plotGenerationPage/PlotGenerationPage';
 import Dashboard from './app/components/dashboard/Dashboard';
 import Navigationbar from './app/components/navigationbar/Navigationbar';

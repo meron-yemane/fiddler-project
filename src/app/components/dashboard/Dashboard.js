@@ -1,17 +1,13 @@
 import React from 'react';
 import './Dashboard.scss';
 import SavedScatterPlots from '../savedScatterPlots/SavedScatterPlots';
+import TableDisplay from '../tableDisplay/TableDisplay';
 
 function Dashboard(props) {
   return (
     <section id="landing-page">
       <SavedScatterPlots savedScatterPlots={props.savedScatterPlots} />
-      <table id="data-table">
-        <tr>
-          {props.tableColumnHeaders}
-        </tr>
-        {props.tableRowData}
-      </table>
+      <TableDisplay tableColumnHeaders={props.tableColumnHeaders} tableRowData={props.tableRowData} />
     </section>
   )
 }

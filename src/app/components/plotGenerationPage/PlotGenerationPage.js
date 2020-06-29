@@ -2,6 +2,7 @@ import React from 'react';
 import './PlotGenerationPage.scss';
 import { Scatter } from 'react-chartjs-2';
 import loanData from '../../../loanData';
+import { NotificationContainer, NotificationManager } from 'react-notifications';
 
 class PlotGenerationPage extends React.Component {
   chartXCoordinateValue = '';
@@ -113,7 +114,19 @@ class PlotGenerationPage extends React.Component {
       chartData: this.state.chartData,
       chartOptions: this.state.chartOptions,
     });
+    this.displayToastr('success');
   }
+
+  displayToastr(type) {
+    switch (type) {
+      case 'success':
+        NotificationManager.success('Scatter plot successfully saved to dashboard');
+        break;
+      case 'error':
+        NotificationManager.error('There was an error while saving, please try again.');
+        break;
+    };
+  };
 
   render() {
     return (
@@ -138,6 +151,8 @@ class PlotGenerationPage extends React.Component {
         <h2 id="chart__scatter-header">Loan Data Scatter Plot</h2>
         <Scatter data={this.state.chartData}
           options={this.state.chartOptions} />
+        <NotificationContainer />
+
       </div>
     );
   }

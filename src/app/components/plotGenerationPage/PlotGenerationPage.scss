@@ -4,6 +4,7 @@
   #chart__scatter-form {
     display: flex;
     justify-content: space-between;
+    align-items: center;
 
     #chart__scatter-select-forms {
       display: flex;
@@ -12,7 +13,6 @@
     .chart__scatter-button--save {
       height: 3rem;
       width: 8rem;
-      align-self: center;
     }
   }
 
@@ -27,5 +27,16 @@
   #chart__scatter-header {
     text-align: center;
     margin: 2rem 0 2rem 0;
+  }
+}
+
+/* small-medium sized screens */
+@media all and (max-width: 950px) {
+  #chart__scatter-form {
+    flex-direction: column;
+  }
+
+  .chart__scatter-button--save {
+    align-self: flex-end;
   }
 }

@@ -1,37 +1,26 @@
 import React from 'react';
 import './PlotGenerationPage.scss';
 import { Scatter } from 'react-chartjs-2';
-import loanData from '../../../loanData';
 import { NotificationContainer, NotificationManager } from 'react-notifications';
+import DropDownOptions from '../dropDownOptions/dropDownOptions';
 
 class PlotGenerationPage extends React.Component {
-  chartXCoordinateValue = '';
-  chartYCoordinateValue = '';
-  chartOptions = {};
-  chartSelectOptions = [];
-  exampleLoan = loanData[0];
-
   constructor(props) {
     super(props);
     this.state = {
-      chartData: {},
-      chartOptions: {},
+      chartData: this.configureChartData(),
+      chartOptions: this.configureChartOptions(),
+      chartXCoordinateValue: '',
+      chartYCoordinateValue: '',
     };
     this.handleXCoordinateSelect = this.handleXCoordinateSelect.bind(this);
     this.handleYCoordinateSelect = this.handleYCoordinateSelect.bind(this);
     this.generateDataForScatterPlot = this.generateDataForScatterPlot.bind(this);
     this.handleScatterPlotSave = this.handleScatterPlotSave.bind(this);
-    this.configurePlotGenerationData();
   }
 
-  configurePlotGenerationData() {
-    this.chartSelectOptions.push(<option></option>);
-    for (const [key, value] of Object.entries(this.exampleLoan)) {
-      if (typeof value === 'number') {
-        this.chartSelectOptions.push(<option>{key}</option>);
-      }
-    };
-    this.state.chartData = {
+  configureChartData() {
+    return {
       datasets: [
         {
           fill: false,
@@ -48,7 +37,10 @@ class PlotGenerationPage extends React.Component {
         }
       ]
     };
-    this.state.chartOptions = {
+  }
+
+  configureChartOptions() {
+    return {
       showLines: false,
       legend: {
         display: false,
@@ -57,13 +49,13 @@ class PlotGenerationPage extends React.Component {
         yAxes: [{
           scaleLabel: {
             display: true,
-            labelString: this.chartYCoordinateValue,
+            labelString: "",
           }
         }],
         xAxes: [{
           scaleLabel: {
             display: true,
-            labelString: this.chartXCoordinateValue,
+            labelString: "",
           }
         }]
       },
@@ -71,41 +63,36 @@ class PlotGenerationPage extends React.Component {
   }
 
   generateDataForScatterPlot() {
-    let datasetsCopy = this.state.chartData.datasets.slice(0);
-    let dataCopy = datasetsCopy[0].data.slice(0);
-    dataCopy = loanData.reduce((accumulator, currentValue) => {
-      accumulator.push({
-        x: currentValue[this.chartXCoordinateValue],
-        y: currentValue[this.chartYCoordinateValue],
-      });
-      return accumulator;
-    }, []);
-    datasetsCopy[0].data = dataCopy;
-    let chartScalesOptionsCopy = { ...this.state.chartOptions.scales };
-    let chartOptionsYaxisCopy = chartScalesOptionsCopy.yAxes.slice(0);
-    let chartOptionsXaxisCopy = chartScalesOptionsCopy.xAxes.slice(0);
-    chartOptionsYaxisCopy[0].scaleLabel.labelString = this.chartYCoordinateValue;
-    chartOptionsXaxisCopy[0].scaleLabel.labelString = this.chartXCoordinateValue;
-    chartScalesOptionsCopy.yAxes = chartOptionsYaxisCopy;
-    chartScalesOptionsCopy.xAxes = chartOptionsXaxisCopy;
+    const newChartOptions = (chartOptions, xAxis, yAxis) => {
+      chartOptions.scales.xAxes[0].scaleLabel.labelString = xAxis;
+      chartOptions.scales.yAxes[0].scaleLabel.labelString = yAxis;
+      return chartOptions;
+    }
 
-    this.setState({
-      chartOptions: Object.assign({}, this.state.chartOptions, {
-        scales: chartScalesOptionsCopy,
-      }),
-      chartData: Object.assign({}, this.state.chartData, {
-        dataSets: datasetsCopy,
-      }),
-    });
+    const newChartData = (chartData, xAxis, yAxis) => {
+      chartData.datasets[0].data = this.props.loanData.reduce((accumulator, currentValue) => {
+        accumulator.push({
+          x: currentValue[xAxis],
+          y: currentValue[yAxis],
+        });
+        return accumulator;
+      }, []);
+      return chartData;
+    }
+
+    this.setState((prevState) => ({
+      chartOptions: newChartOptions(prevState.chartOptions, prevState.chartXCoordinateValue, prevState.chartYCoordinateValue),
+      chartData: newChartData(prevState.chartData, prevState.chartXCoordinateValue, prevState.chartYCoordinateValue),
+    }));
   }
 
   handleXCoordinateSelect(event) {
-    this.chartXCoordinateValue = event.target.value;
+    this.setState({ chartXCoordinateValue: event.target.value });
     this.generateDataForScatterPlot();
   }
 
   handleYCoordinateSelect(event) {
-    this.chartYCoordinateValue = event.target.value;
+    this.setState({ chartYCoordinateValue: event.target.value });
     this.generateDataForScatterPlot();
   }
 
@@ -125,6 +112,8 @@ class PlotGenerationPage extends React.Component {
       case 'error':
         NotificationManager.error('There was an error while saving, please try again.');
         break;
+      default:
+        return;
     };
   };
 
@@ -134,19 +123,19 @@ class PlotGenerationPage extends React.Component {
         <div id="chart__scatter-form">
           <div id="chart__scatter-select-forms">
             <div className="form-group chart__scatter-form-select">
-              <label for="ScatterXAxis">X-axis</label>
-              <select onChange={this.handleXCoordinateSelect} className="form-control" id="ScatterXAxis">
-                {this.chartSelectOptions}
+              <label htmlFor="ScatterXAxis">X-axis</label>
+              <select value={this.state.chartXCoordinateValue} onChange={this.handleXCoordinateSelect} className="form-control" id="ScatterXAxis">
+                <DropDownOptions list={this.props.axisLabels} />
               </select>
             </div>
             <div className="form-group chart__scatter-form-select chart__scatter-forms--y-axis">
-              <label for="ScatterYAxis">Y-axis</label>
-              <select onChange={this.handleYCoordinateSelect} className="form-control" id="ScatterYAxis">
-                {this.chartSelectOptions}
+              <label htmlFor="ScatterYAxis">Y-axis</label>
+              <select value={this.state.chartYCoordinateValue} onChange={this.handleYCoordinateSelect} className="form-control" id="ScatterYAxis">
+                <DropDownOptions list={this.props.axisLabels} />
               </select>
             </div>
           </div>
-          <button onClick={this.handleScatterPlotSave} disabled={!(this.chartXCoordinateValue?.length > 0 && this.chartYCoordinateValue?.length > 0)} type="button" className="btn btn-success chart__scatter-button--save">Save</button>
+          <button onClick={this.handleScatterPlotSave} disabled={!(this.state.chartXCoordinateValue?.length > 0 && this.state.chartYCoordinateValue?.length > 0)} type="button" className="btn btn-success chart__scatter-button--save">Save</button>
         </div>
         <h2 id="chart__scatter-header">Loan Data Scatter Plot</h2>
         <Scatter data={this.state.chartData}

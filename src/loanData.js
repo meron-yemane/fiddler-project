@@ -1,4 +1,4 @@
-const loanData =[
+const loanData = [
   {
     id: 36805548,
     loan_amnt: 10400,

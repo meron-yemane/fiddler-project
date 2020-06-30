@@ -8,6 +8,7 @@ import Navigationbar from './app/components/navigationbar/Navigationbar';
 import { Route, BrowserRouter as Router } from 'react-router-dom';
 import loanData from './loanData';
 import loanDataAxisLabels from './loanDataAxisLabels';
+import { NotificationContainer } from 'react-notifications';
 
 class App extends React.Component {
   exampleLoan = loanData[0];
@@ -18,8 +19,8 @@ class App extends React.Component {
       tableColumnHeaders: [],
       tableRowData: [],
       savedScatterPlots: [],
-      axisLabels: [],
-      // simulating response from api
+      // simulating responses from api
+      axisLabels: [...loanDataAxisLabels],
       loanData: [...loanData],
     };
     this.configureTableData = this.configureTableData.bind(this);
@@ -43,8 +44,6 @@ class App extends React.Component {
     this.setState({
       tableColumnHeaders: [...headerData],
       tableRowData: [...rowData],
-      // simulating responses from api call
-      axisLabels: [...loanDataAxisLabels],
     });
   }
 
@@ -83,6 +82,7 @@ class App extends React.Component {
             <PlotGenerationPage loanData={this.state.loanData} axisLabels={this.state.axisLabels} onScatterPlotSave={this.addScatterPlotToGrid} />
           )} />
         </div>
+        <NotificationContainer />
       </Router>
     );
   }

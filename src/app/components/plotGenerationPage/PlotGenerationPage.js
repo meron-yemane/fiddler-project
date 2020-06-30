@@ -1,7 +1,7 @@
 import React from 'react';
 import './PlotGenerationPage.scss';
 import { Scatter } from 'react-chartjs-2';
-import { NotificationContainer, NotificationManager } from 'react-notifications';
+import { NotificationManager } from 'react-notifications';
 import DropDownOptions from '../dropDownOptions/dropDownOptions';
 
 class PlotGenerationPage extends React.Component {
@@ -107,7 +107,7 @@ class PlotGenerationPage extends React.Component {
   displayToastr(type) {
     switch (type) {
       case 'success':
-        NotificationManager.success('Scatter plot successfully saved to dashboard');
+        NotificationManager.success('Scatter plot successfully saved to dashboard', '', 2500);
         break;
       case 'error':
         NotificationManager.error('There was an error while saving, please try again.');
@@ -140,8 +140,6 @@ class PlotGenerationPage extends React.Component {
         <h2 id="chart__scatter-header">Loan Data Scatter Plot</h2>
         <Scatter data={this.state.chartData}
           options={this.state.chartOptions} />
-        <NotificationContainer />
-
       </div>
     );
   }

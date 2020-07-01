@@ -1,8 +1,8 @@
 import React from 'react';
 import './PlotGenerationPage.scss';
 import { Scatter } from 'react-chartjs-2';
-import { NotificationManager } from 'react-notifications';
 import DropDownOptions from '../dropDownOptions/dropDownOptions';
+import { toast, cssTransition } from 'react-toastify';
 
 class PlotGenerationPage extends React.Component {
   constructor(props) {
@@ -101,21 +101,16 @@ class PlotGenerationPage extends React.Component {
       chartData: this.state.chartData,
       chartOptions: this.state.chartOptions,
     });
-    this.displayToastr('success');
+    toast.success('Scatter plot successfully saved to dashboard', {
+      position: "top-right",
+      autoClose: 5000,
+      hideProgressBar: true,
+      closeOnClick: true,
+      pauseOnHover: true,
+      draggable: true,
+      progress: undefined,
+      });
   }
-
-  displayToastr(type) {
-    switch (type) {
-      case 'success':
-        NotificationManager.success('Scatter plot successfully saved to dashboard', '', 2500);
-        break;
-      case 'error':
-        NotificationManager.error('There was an error while saving, please try again.');
-        break;
-      default:
-        return;
-    };
-  };
 
   render() {
     return (

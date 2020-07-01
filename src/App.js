@@ -1,7 +1,7 @@
 import React from 'react';
 import './App.scss';
 import 'bootstrap/dist/css/bootstrap.min.css';
-import 'react-notifications/lib/notifications.css';
+import 'react-toastify/dist/ReactToastify.css';
 import PlotGenerationPage from './app/components/plotGenerationPage/PlotGenerationPage';
 import Dashboard from './app/components/dashboard/Dashboard';
 import Navigationbar from './app/components/navigationbar/Navigationbar';
@@ -9,6 +9,7 @@ import { Route, BrowserRouter as Router } from 'react-router-dom';
 import loanData from './loanData';
 import loanDataAxisLabels from './loanDataAxisLabels';
 import { NotificationContainer } from 'react-notifications';
+import { ToastContainer, Slide } from 'react-toastify';
 
 class App extends React.Component {
   exampleLoan = loanData[0];
@@ -82,7 +83,7 @@ class App extends React.Component {
             <PlotGenerationPage loanData={this.state.loanData} axisLabels={this.state.axisLabels} onScatterPlotSave={this.addScatterPlotToGrid} />
           )} />
         </div>
-        <NotificationContainer />
+        <ToastContainer transition={Slide} limit={1}/>
       </Router>
     );
   }

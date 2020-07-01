@@ -1,5 +1,4 @@
 import React from 'react';
-import './SavedFormattedPlots.scss';
 import { Scatter } from 'react-chartjs-2';
 
 const SavedFormattedPlots = (props) => {

@@ -109,7 +109,7 @@ class PlotGenerationPage extends React.Component {
       pauseOnHover: true,
       draggable: true,
       progress: undefined,
-      });
+    });
   }
 
   render() {

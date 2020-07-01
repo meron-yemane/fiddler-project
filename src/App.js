@@ -8,7 +8,6 @@ import Navigationbar from './app/components/navigationbar/Navigationbar';
 import { Route, BrowserRouter as Router } from 'react-router-dom';
 import loanData from './loanData';
 import loanDataAxisLabels from './loanDataAxisLabels';
-import { NotificationContainer } from 'react-notifications';
 import { ToastContainer, Slide } from 'react-toastify';
 
 class App extends React.Component {

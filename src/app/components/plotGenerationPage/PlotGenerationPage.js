@@ -2,7 +2,7 @@ import React from 'react';
 import './PlotGenerationPage.scss';
 import { Scatter } from 'react-chartjs-2';
 import DropDownOptions from '../dropDownOptions/dropDownOptions';
-import { toast, cssTransition } from 'react-toastify';
+import { toast } from 'react-toastify';
 
 class PlotGenerationPage extends React.Component {
   constructor(props) {
